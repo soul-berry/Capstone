@@ -1,5 +1,6 @@
 import pandas as pd
 from scipy.stats import ttest_ind
+import numpy as np
 # Convert to a DataFrame
 #df = pd.DataFrame(load_drawing_data(metadata, drawings_path))
 
