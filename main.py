@@ -7,7 +7,7 @@ def main():
     metadata = load_metadata(metadata_path)
     print("Loaded metadata shape:", metadata.shape)
 
-    print("Loading drawing data....")
+    print("Loading drawing data")
     participants_data = load_drawing_data(metadata, drawings_path)
     
     print("Loaded drawing data for", len(participants_data), "participants")
