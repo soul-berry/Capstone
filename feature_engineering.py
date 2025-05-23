@@ -1,6 +1,34 @@
 import pandas as pd
 from scipy.stats import ttest_ind
 import numpy as np
+import copy
+import math
+
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import signal 
+from scipy import stats
+import statistics
+
+from scipy.stats import mannwhitneyu
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import math
+import copy
+import re
+import openpyxl
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, RobustScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.utils import resample
+
+
 # Convert to a DataFrame
 #df = pd.DataFrame(load_drawing_data(metadata, drawings_path))
 
@@ -10,7 +38,7 @@ def select_features(df, target_col='label', alpha=0.1):
     #df_without_drawings = df.drop(columns=['drawings'])
 
     #Defining new columns that represent additional features
-    df['stroke duration'] = np.nan #refers to the time needed for each participant to complete the task, calculated as the difference between start time and end ti,e
+    df["stroke duration"] = np.nan #refers to the time needed for each participant to complete the task, calculated as the difference between start time and end ti,e
     df["NCV"] = np.nan #number of changes in direction of velocity, calculated by adding up the number of local extrema
     df["V_max"] = np.nan
     df["V_min"] = np.nan
@@ -38,7 +66,7 @@ def select_features(df, target_col='label', alpha=0.1):
     df["p_std"] = df["p_std"].astype(object)
     df["p_mean"] = df["p_mean"].astype(object)
     df["NCP"] = df["NCP"].astype(object)
-
+    print(df['drawings'])
     original_drawings = copy.deepcopy(df['drawings'])
     # Reset 'drawings' in DataFrame to original
     df['drawings'] = original_drawings
@@ -138,9 +166,14 @@ def select_features(df, target_col='label', alpha=0.1):
     df_healthy = df_healthy.reset_index()
     df_parkinson = df[df['Disease']=="PD"]
     df_parkinson = df_parkinson.reset_index()
-
-
+    
+    print(df_healthy.columns)
+    #df_healthy=df_healthy[['ID', 'drawings', 'stroke duration', 'NCV', 'V_max', 'V_min', 'p_min', 'p_max', 'NCP','V_std', 'V_mean', 'p_std', 'p_mean']]
+    #df_parkinson=df_parkinson[['ID', 'drawings','stroke duration', 'NCV', 'V_max', 'V_min', 'p_min', 'p_max', 'NCP','V_std', 'V_mean', 'p_std', 'p_mean']]
+    print("type ", type(df_healthy))
+    print(df_healthy.head())
     healthy_bootstrap = resample(df_healthy, n_samples=33, random_state=42)
+    
     parkinson_bootstrap = resample(df_parkinson, n_samples=33, random_state=42)
 
     healthy_bootstrap = healthy_bootstrap.reset_index()
